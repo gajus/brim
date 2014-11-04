@@ -1,0 +1,12 @@
+{
+  "name": "fuss",
+  "description": "Extended Facebook JavaScript SDK. Provides intuitive API for handling user authorization, batch requests; represents the asynchronous operations using promises.",
+  "version": "1.2.4",
+  "keywords": [
+    "facebook"
+  ],
+  "license": "BSD-3-Clause",
+  "authors": [
+    "Gajus Kuizinas <gk@anuary.com>"
+  ]
+}
