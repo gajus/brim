@@ -76,8 +76,8 @@ Brim = function Brim (config) {
         sister,
         player = {},
         device,
-        magicOffset = 1;
-
+        magicOffsetScroll = 1;
+    
     if (!(this instanceof Brim)) {
         return new Brim(config);
     }
@@ -94,6 +94,7 @@ Brim = function Brim (config) {
                     name: eventName,
                     orientation: global.orientation === 0 ? 'vertical' : 'horizontal',
                     innerHeight: global.innerHeight,
+                    treadmillHeight: player.treadmill.clientHeight,
                     maximumAvailableHeight: device.maximumAvailableHeight,
                     isMAH: brim.isMAH()
                 })
@@ -107,7 +108,7 @@ Brim = function Brim (config) {
      * @see http://stackoverflow.com/questions/26779744/how-to-read-the-property-values-of-the-viewport-meta-tag
      * @return {Number}
      */
-    brim.getViewPortWidth = function () {
+    brim.getViewportWidth = function () {
         var viewportElement = document.querySelector('meta[name="viewport"]'),
             viewPort = {};
 
@@ -132,16 +133,20 @@ Brim = function Brim (config) {
      * 
      * @return {Object} device
      * @return {String} device.name
+     * @return {Number} device.maximumAvailableHeight
      * @return {Number} device.maximumAvailableHeightVertical
      * @return {Number} device.maximumAvailableHeightHorizontal
+     * @return {Number} device.screenWidth
+     * @return {Number} device.screenHeight
+     * @return {Number} device.chromeHeight
      */
     brim.getDevice = function () {
-        var screenWidth = global.screen.availWidth,
-            screenHeight = global.screen.availHeight,
-            device = {};
+        var device = {};
 
+        device.screenWidth = global.screen.availWidth;
+        device.screenHeight = global.screen.availHeight;
 
-        if (screenWidth == 320 && screenHeight == 548) {
+        if (device.screenWidth == 320 && device.screenHeight == 548) {
             device.name = 'iphone-5s';
             // Upon loading the page it is 460
             // Upon exiting the MAH it is 461
@@ -151,7 +156,13 @@ Brim = function Brim (config) {
             throw new Error('Not iOS device.');
         }
 
-        device.maximumAvailableHeight = global.orientation === 0 ? device.maximumAvailableHeightVertical : device.maximumAvailableHeightHorizontal;
+        device.maximumAvailableHeight = global.orientation === 0 ?
+            device.maximumAvailableHeightVertical :
+            device.maximumAvailableHeightHorizontal;
+
+        // screen.availHeight is the height the browser's window can have if it is maximized.
+        // screen.height is the number of pixels the screen can display.
+        device.chromeHeight = global.screen.height - global.screen.availHeight;
 
         return device;
     };
@@ -167,16 +178,17 @@ Brim = function Brim (config) {
 
     /**
      * Sets the dimensions of the treadmill player and adjusts the window scroll offset.
-     * Treadmill height is set to 2 times the size of the MAH; offset magicOffset.
+     * Treadmill height is set to 2 times the size of the MAH; device.chromeHeight.
      * 
      * Treadmill larger than the MAH allows user to scroll downwards to enable the fullscreen.
      * 2 times the size of MAH, allows the maximum scrolling distance that can be achieved
      * with a single touch-drag gesture.
      * 
-     * The purpose of the magicOffset is to ensure that part of the document is not in the view.
-     * Forcing the document body out of the view, ensures that fullscreen persists.
-     * In addition, magicOffset is used to prevent user scrolling to the of the page using the
-     * tap-navigation gesture (see "scroll" event).
+     * The purpose of the scroll offset is to overcome a bug in Safari.
+     * Setting the offset ensures that "resize" event is triggered upon loading the page.
+     * After the resize event we can calculate the true window height.
+     *
+     * @see http://stackoverflow.com/questions/26784456/how-to-get-window-height-when-in-fullscreen
      */
     brim.treadmill = function () {
         var treadmillStyle = player.treadmill.style;
@@ -185,74 +197,40 @@ Brim = function Brim (config) {
             treadmillStyle.visibility = 'hidden';
         }
 
-        treadmillStyle.width = config.viewportWidth + 'px';
+        treadmillStyle.position = 'relative';
+        treadmillStyle.zIndex = 10;
+        treadmillStyle.width = config.viewportWidth + 'px';       
         treadmillStyle.height = (device.maximumAvailableHeight * 2) + 'px';
 
-        brim._scrollY(magicOffset);
+        global.scrollTo(0, device.chromeHeight);
     };
 
-    brim.setupEventListeners = function () {
-        var touchStart = false;
-
+    /**
+     * 
+     */
+    brim.setupDOMEventListeners = function () {
         global.addEventListener('orientationchange', function () {
-            // Device properties are global.orientation sensitive.
-            brim.main();
+            sister.trigger('change');
         });
 
-        // The resize event is triggered when page is loaded in MAH state.
+        // The resize event is triggered when page is loaded in MAH state with scroll offset greater than 0.
         global.addEventListener('resize', function () {
-            brim.debug('resize');
-
-            brim.treadmill();
-            brim.mask();
+            sister.trigger('change');
         });
 
         global.addEventListener('touchstart', function (e) {
-            brim.debug('touchstart');
-
-            touchStart = true;
-
             // Disable window scrolling when in MAH.
             if (brim.isMAH()) {
                 e.preventDefault();
             }
         });
-
-        global.addEventListener('touchend', function (e) {
-            // Make sure that user cannot scroll to the top of the treadmill.
-            brim.treadmill();
-
-            touchStart = false;
-        });
-
-        // This is to safe guard against a special case. When mask is visible,
-        // user can click the navigation to scroll to the top of the page.
-        // The touchStart is there to prevent unnecessary jitter when
-        // user is doing the touch-drag. 
-        global.addEventListener('scroll', function () {
-            if (!touchStart) {
-                brim.treadmill();
-            }
-        });
     }
 
     /**
-     * A convenience wrapper for debugging.
+     * Sets the dimensions and position of the drag mask player. The mask is an overlay on top
+     * of the treadmill and the main content. It does not respond to the touch events.
      *
-     * @param {Number} y Window offset from the top.
-     */
-    brim._scrollY = function (y) {
-        if (config.debug) {
-            console.log('scrollY', y);
-        }
-
-        global.scrollTo(0, y);
-    };
-
-    /**
-     * Sets the dimensions and positioning of the mask player. The mask is just an overlay on top
-     * of the treadmill and the main content. It does respond to the touch events. The mask
-     * is visible when window is not in MAH.
+     * The mask is visible when window is not in MAH.
      */
     brim.mask = function () {
         var maskStyle = player.mask.style;
@@ -262,29 +240,37 @@ Brim = function Brim (config) {
         } else {
             maskStyle.display = 'block';
 
-            maskStyle.position = 'absolute';
-            maskStyle.zIndex = 20;
-        
-            maskStyle.top = window.scrollY + 'px';
+            maskStyle.pointerEvents = 'none';
+
+            // Cannot use position fixed because fixed element is not visible outside of the
+            // chrome of the pre touch-drag state. There is a visual reminder in
+            // ./.readme/element-fixed-bug.png
+
+            // Can use position fixed if forcing repaint of the element.
+            // http://stackoverflow.com/questions/3485365/how-can-i-force-webkit-to-redraw-repaint-to-propagate-style-changes?lq=1
+
+            maskStyle.position = 'fixed';
+            maskStyle.zIndex = 30;
+            maskStyle.webkitTransform = 'scale(1)';
+            maskStyle.top = 0;
             maskStyle.left = 0;
             maskStyle.width = config.viewportWidth + 'px';
             maskStyle.height = device.maximumAvailableHeight + 'px';
-            maskStyle.pointerEvents = 'none';
         }
     };
 
     /**
-     * Sets the dimensions and positioning of the main player. The main element is always visible.
+     * Sets the dimensions and position of the main player.
+     *
+     * The main element remains visible beneath the mask.
      */
     brim.main = function () {
         var mainStyle = player.main.style;
 
-        device = brim.getDevice();
-
-        mainStyle.position = 'absolute';
-        mainStyle.zIndex = 10;
-    
-        mainStyle.top = (window.scrollY + magicOffset) + 'px';
+        mainStyle.position = 'fixed';
+        mainStyle.zIndex = 20;
+        mainStyle.webkitTransform = 'scale(1)';
+        mainStyle.top = 0;
         mainStyle.left = 0;
         mainStyle.width = config.viewportWidth + 'px';
         mainStyle.height = device.maximumAvailableHeight + 'px';
@@ -292,7 +278,7 @@ Brim = function Brim (config) {
 
     config = config || {};
 
-    config.viewportWidth = brim.getViewPortWidth();
+    config.viewportWidth = brim.getViewportWidth();
 
     if (!config.viewportWidth) {
         throw new Error('Unknown viewport width.');
@@ -304,22 +290,32 @@ Brim = function Brim (config) {
     player.treadmill = document.querySelector('#brim-treadmill');
     player.main = document.querySelector('#brim-main');
     player.mask = document.querySelector('#brim-mask');
-    
-    brim.main();
 
-    // On page load, isMAH is always false. This makes the documentHeight scrollable.
-    brim.treadmill();
-    // Show mask on page load.
-    // This will cause flickering if page is loaded in MAH.
-    // There is no way to know if the page is loaded in MAH until the resize event.
-    // There is no way to know if the resize event will fire (Catch-22).
-    // If brim.mask() invocation is wrapped in setImmediate(), then flickering
-    // will be as issue when page is loaded not in MAH.
-    brim.mask();
+    sister.on('change', function () {
+        // Device properties are relative to global.orientation.
+        device = brim.getDevice();
 
-    brim.debug('load');
+        brim.treadmill();
+        brim.main();
 
-    brim.setupEventListeners();
+        // Show mask on page load.
+        // This will cause flickering if page is loaded in MAH.
+        // There is no way to know if the page is loaded in MAH until the resize event.
+        // There is no way to know if the resize event will fire (Catch-22).
+        // If brim.mask() invocation is wrapped in setImmediate(), then flickering
+        // will be as issue when page is loaded not in MAH.
+        brim.mask();
+    });
+
+    brim.setupDOMEventListeners();
+
+    // The initial trigger is required to ensure that element height is set.
+    sister.trigger('change');
+
+    // The subsequent trigger is required to get the correct dimensions.
+    setTimeout(function () {
+        sister.trigger('change');
+    }, 100);
 };
 
 
