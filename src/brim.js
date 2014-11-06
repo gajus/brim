@@ -217,7 +217,11 @@ Brim = function Brim (config) {
     config.debug = config.debug || false;
 
     sister = Sister();
-    player.treadmill = document.querySelector('#brim-treadmill');
+    
+    player.treadmill = document.createElement('div');
+    //player.treadmill.id = 'brim-treadmill';
+    document.body.appendChild(player.treadmill);
+
     player.main = document.querySelector('#brim-main');
     player.mask = document.querySelector('#brim-mask');
 
@@ -228,12 +232,7 @@ Brim = function Brim (config) {
         brim.treadmill();
         brim.main();
 
-        // Show mask on page load.
-        // This will cause flickering if page is loaded in MAH.
-        // There is no way to know if the page is loaded in MAH until the resize event.
-        // There is no way to know if the resize event will fire (Catch-22).
-        // If brim.mask() invocation is wrapped in setImmediate(), then flickering
-        // will be as issue when page is loaded not in MAH.
+        
         brim.mask();
     });
 
