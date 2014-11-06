@@ -135,6 +135,10 @@ Brim = function Brim (config) {
      * This restricts the ongoing touch-drag downwards event.
      */
     brim.treadmill = function () {
+        if (!config.debug) {
+            player.treadmill.style.visibility = 'hidden';
+        }
+
         if (brim.isMAH()) {
             player.treadmill.style.width = config.viewportWidth + 'px';
             player.treadmill.style.height = device.maximumAvailableHeight + 'px';
@@ -148,17 +152,29 @@ Brim = function Brim (config) {
         }
     };
 
+    /**
+     * A convenience wrapper for debugging.
+     *
+     * @param {Number} y Window offset from the top.
+     */
     brim._scrollY = function (y) {
-        //console.log('scrollY', y);
+        if (config.debug) {
+            console.log('scrollY', y);
+        }
 
         global.scrollTo(0, y);
     };
 
-    /*brim.mask = function () {
+    /**
+     * Sets the dimensions and positioning of the mask. The mask is just an overlay on top
+     * of the treadmill and the main content. It does respond to the touch events. The mask
+     * is visible when window is not in MAH.
+     */
+    brim.mask = function () {
         if (brim.isMAH()) {
-            //player.mask.style.display = 'none';
+            player.mask.style.display = 'none';
         } else {
-            //player.mask.style.display = 'block';
+            player.mask.style.display = 'block';
 
             player.mask.style.position = 'fixed';
         
@@ -168,13 +184,15 @@ Brim = function Brim (config) {
             player.mask.style.height = device.maximumAvailableHeight + 'px';
             player.mask.style.pointerEvents = 'none';
         }
-    };*/
+    };
 
     config = config || {};
 
     if (!config.viewportWidth) {
         throw new Error('Unknown viewport width.');
     }
+
+    config.debug = config.debug || false;
 
     sister = Sister();
     player.treadmill = document.querySelector('#treadmill');
@@ -184,27 +202,16 @@ Brim = function Brim (config) {
 
     // On page load, isMAH is always false. This makes the documentHeight scrollable.
     brim.treadmill();
+    // Show mask on page load.
+    // This can cause flickering.
+    // There is no way to know if the resize event will be triggered.
+    brim.mask();
 
     // The resize event is triggered when page is loaded in MAH state.
     global.addEventListener('resize', function () {
         brim.treadmill();
+        brim.mask();
     });
-
-
-
-
-
-
-
-
-
-    
-
-    sister.on('change', function () {
-        console.log('change', 'MAH:', brim.isMAH(), window.innerHeight);
-        //brim.mask();
-    });
-
     
 
     //sister.trigger('change');
