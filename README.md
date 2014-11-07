@@ -4,7 +4,23 @@
 [![NPM version](https://badge.fury.io/js/brim.svg)](http://badge.fury.io/js/brim)
 [![Bower version](https://badge.fury.io/bo/brim.svg)](http://badge.fury.io/bo/brim)
 
-N/A
+## Usage
+
+You will need two elements:
+
+```html
+<div id="brim-main"></div>
+<div id="brim-mask"></div>
+```
+
+* `brim-mask` is visible to the end user when window is not in fullscreen.
+* `brim-main` is visible to the end user when window is in fullscreen.
+
+You must set the viewport `width` property:
+
+```html
+<meta name="viewport" content="width=320">
+```
 
 ## Download
 
