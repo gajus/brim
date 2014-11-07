@@ -181,9 +181,8 @@ Brim = function Brim (config) {
         width = device.getViewportWidth();
         height = device.getMAH();
 
-        console.log('main', 'dimensions:', [width, height]);
+        // console.log('main', 'dimensions:', [width, height]);
 
-        pms.display = 'none';
         pms.position = 'fixed';
         pms.zIndex = 20;
         pms.webkitTransform = 'scale(1)';
@@ -377,7 +376,7 @@ Device = function Device () {
      * @return {Boolean}
      */
     device.isMAH = function () {
-        console.log('isMAH', device.getMAH(), global.innerHeight);
+        // console.log('isMAH', device.getMAH(), global.innerHeight);
 
         return device.getMAH() === global.innerHeight;
     };
