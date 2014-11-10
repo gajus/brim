@@ -5,28 +5,13 @@
 [![NPM version](https://badge.fury.io/js/brim.svg)](http://badge.fury.io/js/brim)
 [![Bower version](https://badge.fury.io/bo/brim.svg)](http://badge.fury.io/bo/brim)
 
-## Setup
+## Usage
 
-Initialize [Scream](#scream).
-
-If you are using a module loader, load "scream":
+Setup the viewport using Scream (see [dependencies](#dependencies)):
 
 ```js
-var Scream = require('scream');
-```
+var scream;
 
-If you are not using a module loader, include the script file. In this case, Scream is available under the "gajus" namespace:
-
-```html
-<script src="./bower_components/scream.js"></script>
-<script>
-var Scream = gajus.Scream;
-</script>
-```
-
-Setup the viewport:
-
-```js
 scream = Scream({
     width: {
         portrait: 320,
@@ -35,16 +20,53 @@ scream = Scream({
 });
 ```
 
-Explore [Scream](https://github.com/gajus/scream) documentation to learn about all of the configuration parameters.
-
-Load Brim either as a module or including the script (follow earlier guidance for Scream).
-
 Initialise Brim with an instance of Scream as a `viewport` configuration property:
 
 ```js
+var brim;
+
 brim = Brim({
     viewport: scream
 });
+```
+
+Document must have exactly two descendants `brim-main` and `brim-mask`.
+
+### Quick Start
+
+```html
+<!DOCTYPE html>
+<html>
+<head>
+    
+</head>
+<body>
+    <div id="brim-mask">
+        <!-- Content displayed to the user when not in minimal view. -->
+    </div>
+    <div id="brim-main">
+        <!-- Content displayed to the user when in minimal view.  -->
+    </div>
+
+    <script src="./bower_components/scream/dist/scream.js"></script>
+    <script src="./bower_components/brim/dist/brim.js"></script>
+    <script>
+    var scream,
+        brim;
+
+    scream = gajus.Scream({
+        width: {
+            portrait: 320,
+            landscape: 640
+        }
+    });
+
+    brim = gajus.Brim({
+        viewport: scream
+    });
+    </script>
+</body>
+</html>
 ```
 
 ## Dependencies
