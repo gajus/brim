@@ -3,7 +3,7 @@
 [![NPM version](https://badge.fury.io/js/brim.svg)](http://badge.fury.io/js/brim)
 [![Bower version](https://badge.fury.io/bo/brim.svg)](http://badge.fury.io/bo/brim)
 
-Brim enables minimal-ui for the iOS 8.
+Brim [enables minimal-ui](#the-solution) for the iOS 8.
 
 ## Minimal-UI
 
@@ -23,7 +23,15 @@ Brim tackles all of the issues associated with determining when user is in the m
 
 ## The Underlying Implementation
 
+Brim needs three elements:
 
+| ID | Function |
+| --- | --- |
+| "brim-treadmill" | Treadmill element is used to give user space to scroll. The element is generated in the background without you having to do anything. It is invisible to the user the entire time. |
+| "brim-mask" | Mask element is displayed to the user when device is not in minimal-ui state. The role of the element is to instruct user to enter the minimal-ui. You have to have this element as a direct descendant of `<body>`. |
+| "brim-main" | Main element is where your app resides. This element is shown when mask is hidden. You have to have this element as a direct descendant of `<body>`. |
+
+* Treadmill – 
 
 ## Download
 
