@@ -6,5 +6,8 @@
   "license": "BSD-3-Clause",
   "authors": [
     "Gajus Kuizinas <gk@anuary.com>"
-  ]
+  ],
+  "dependencies": {
+    "scream": "~2.0.0"
+  }
 }

@@ -5,29 +5,55 @@
 [![NPM version](https://badge.fury.io/js/brim.svg)](http://badge.fury.io/js/brim)
 [![Bower version](https://badge.fury.io/bo/brim.svg)](http://badge.fury.io/bo/brim)
 
-## Dependencies
+## Setup
 
-### [Scream](https://github.com/gajus/scream)
+Initialize [Scream](#scream).
 
-> Dynamic viewport management for mobile. Manage viewport in different states of device orientation. Scale document to fit viewport. Calculate the dimensions of the "minimal" iOS 8 view relative to your viewport width.
-
-An instance of Scream is part of the Brim initialization configuration:
+If you are using a module loader, load "scream":
 
 ```js
-var scream,
-    brim;
+var Scream = require('scream');
+```
 
+If you are not using a module loader, include the script file. In this case, Scream is available under the "gajus" namespace:
+
+```html
+<script src="./bower_components/scream.js"></script>
+<script>
+var Scream = gajus.Scream;
+</script>
+```
+
+Setup the viewport:
+
+```js
 scream = Scream({
     width: {
         portrait: 320,
         landscape: 640
     }
 });
+```
 
+Explore [Scream](https://github.com/gajus/scream) documentation to learn about all of the configuration parameters.
+
+Load Brim either as a module or including the script (follow earlier guidance for Scream).
+
+Initialise Brim with an instance of Scream as a `viewport` configuration property:
+
+```js
 brim = Brim({
     viewport: scream
 });
 ```
+
+## Dependencies
+
+### Scream
+
+> Dynamic viewport management for mobile. Manage viewport in different states of device orientation. Scale document to fit viewport. Calculate the dimensions of the "minimal" iOS 8 view relative to your viewport width.
+
+An instance of [Scream](https://github.com/gajus/scream) is part of the [Brim initialization](#setup) configuration.
 
 ## Namespace
 
