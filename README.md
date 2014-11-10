@@ -7,7 +7,7 @@
 
 ## Dependencies
 
-Brim depends on [Scream](https://github.com/gajus/scream):
+[Scream](https://github.com/gajus/scream):
 
 > Dynamic viewport management for mobile. Manage viewport in different states of device orientation. Scale document to fit viewport. Calculate the dimensions of the "minimal" iOS 8 view relative to your viewport width.
 
