@@ -7,7 +7,7 @@
   "author": "Gajus Kuizinas <gk@anuary.com>",
   "repository": {
     "type": "git",
-    "url": "https://github.com/gajus/brim.js"
+    "url": "https://github.com/gajus/brim"
   },
   "license": "BSD-3-Clause",
   "devDependencies": {
@@ -24,6 +24,7 @@
     "mocha": "^2.0.1"
   },
   "dependencies": {
+    "scream": "^2.0.0",
     "sister": "^3.0.0"
   }
 }
