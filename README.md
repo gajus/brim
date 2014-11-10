@@ -23,11 +23,11 @@ Brim tackles all of the issues associated with determining when user is in the m
 
 ## The Underlying Implementation
 
-Brim needs three elements:
+There are three element required to make Brim work:
 
-* Treadmill. Treadmill element is used to give user space to scroll. The element is dynamically without you having to do anything. It is invisible to the user the entire time.
-* Mask element. It is displayed to the user when device is not in the minimal-ui state. The role of the element is to instruct user to enter the minimal-ui. You have to have this element as a direct descendant of `<body>`.
-* Main element. This element is shown when mask is hidden. You have to have this element as a direct descendant of `<body>`.
+* Treadmill. Treadmill element is used to give user space to scroll. The element is dynamically created without you having to do anything. It is invisible to the user the entire time.
+* Mask element. It is displayed to the user when device is not in the minimal-ui state. The role of the element is to instruct user to enter the minimal-ui. You have to have this element as a direct descendant of `<body>`. It has to have ID `brim-mask` and no styling that would affect the dimensions of the element.
+* Main element. This element is shown when mask is hidden. You have to have this element as a direct descendant of `<body>`. It has to have ID `brim-main` and no styling that would affect the dimensions of the element.
 
 ## Download
 
