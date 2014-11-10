@@ -6,7 +6,8 @@ Brim = function Brim (config) {
         sister,
         player = {},
         device,
-        magicPixel = 1;
+        magicPixel = 1,
+        viewport;
     
     if (!(this instanceof Brim)) {
         return new Brim(config);
@@ -14,8 +15,15 @@ Brim = function Brim (config) {
 
     brim = this;
 
-    brim.setupDOMEventListeners = function () {
-        global.addEventListener('orientationchange', function () {
+    if (!config.viewport || !(config.viewport instanceof gajus.Scream)) {
+        throw new Error('Configuration property "viewport" must be an instance of Scream.');
+    }
+
+    viewport = config.viewport;
+
+    brim._setupDOMEventListeners = function () {
+        viewport.on('orientationchangeend', function () {
+            console.log('viewport.isMinimalView()', viewport.isMinimalView());
             sister.trigger('change');
         });
 
@@ -26,7 +34,7 @@ Brim = function Brim (config) {
 
         global.addEventListener('touchstart', function (e) {
             // Disable window scrolling when in MAH.
-            if (device.isMAH()) {
+            if (viewport.isMinimalView()) {
                 e.preventDefault();
             }
         });
@@ -46,10 +54,10 @@ Brim = function Brim (config) {
      *
      * @see http://stackoverflow.com/questions/26784456/how-to-get-window-height-when-in-fullscreen
      */
-    brim.treadmill = function () {
-        var width = device.getViewportWidth(),
-            height = device.getViewportHeight() * 2,
-            scrollTo = device.getChromeHeight(),
+    brim._treadmill = function () {
+        var width = viewport.getViewportWidth(),
+            height = viewport.getViewportHeight() * 2,
+            scrollTo = 1,
             pts = player.treadmill.style;
 
         // console.log('treadmill', 'dimensions:', [width, height], 'scrollTo:', scrollTo);
@@ -66,16 +74,16 @@ Brim = function Brim (config) {
      *
      * The mask is visible when window is not in MAH.
      */
-    brim.mask = function () {
+    brim._mask = function () {
         var width,
             height,
             pms = player.mask.style;
 
-        if (device.isMAH()) {
+        if (viewport.isMinimalView()) {
             pms.display = 'none';
         } else {
-            width = device.getViewportWidth();
-            height = device.getMAH();
+            width = viewport.getViewportWidth();
+            height = viewport.getViewportHeight();
 
             //console.log('mask', 'dimensions:', [width, height]);
 
@@ -104,27 +112,36 @@ Brim = function Brim (config) {
      *
      * The main element remains visible beneath the mask.
      */
-    brim.main = function () {
-        var pms = player.main.style;
+    brim._main = function () {
+        var minimalViewSize,
+            pms = player.main.style;
 
-        width = device.getViewportWidth();
-        height = device.getMAH();
+        if (!viewport.isMinimalView()) {
+            pms.display = 'none';
+        } else {
+            pms.display = 'block';
 
-        // console.log('main', 'dimensions:', [width, height]);
+            minimalViewSize = viewport.getMinimalViewSize();
 
-        pms.position = 'fixed';
-        pms.zIndex = 20;
-        pms.webkitTransform = 'scale(1)';
-        pms.top = 0;
-        pms.left = 0;
-        pms.width = width + 'px';
-        pms.height = height + 'px';
+            width = minimalViewSize.width;
+            height = minimalViewSize.height;
+
+            // console.log('main', 'dimensions:', [width, height]);
+
+            pms.position = 'fixed';
+            pms.zIndex = 20;
+            pms.webkitTransform = 'scale(1)';
+            pms.top = 0;
+            pms.left = 0;
+            pms.width = width + 'px';
+            pms.height = height + 'px';
+        }
     };
 
     /**
      * @return {HTMLElement}
      */
-    brim.makeTreadmill = function () {
+    brim._makeTreadmill = function () {
         var treadmill = document.createElement('div');
         treadmill.id = 'brim-treadmill';
 
@@ -138,20 +155,19 @@ Brim = function Brim (config) {
         return treadmill;
     };
 
-    brim.setupDOMEventListeners();
+    brim._setupDOMEventListeners();
 
-    player.treadmill = brim.makeTreadmill();
+    player.treadmill = brim._makeTreadmill();
 
     sister = Sister();
-    device = Device();
 
     player.main = document.querySelector('#brim-main');
     player.mask = document.querySelector('#brim-mask');
 
     sister.on('change', function () {
-        brim.treadmill();
-        brim.main();
-        brim.mask();
+        brim._treadmill();
+        brim._main();
+        brim._mask();
     });
 
     // The initial trigger is required to setup treadmill height and offset.
