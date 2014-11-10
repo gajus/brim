@@ -31,9 +31,9 @@ brim = Brim({
 
 ## Namespace
 
-There is no namespace if you are using `./src/` to build a package using a module loader such as [RequireJS](http://requirejs.org/) or [Browserify](http://browserify.org/).
+There is no namespace if you are loading `./src/` to build a package using a module loader such as [RequireJS](http://requirejs.org/) or [Browserify](http://browserify.org/).
 
-If you are using the `./dist/` release, then all of the module objects are available under `gajus.Brim` namespace.
+If you are using the `./dist/` release, then all of the module objects are available under the `gajus.Brim` namespace.
 
 ## Usage
 
