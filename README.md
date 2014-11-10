@@ -5,7 +5,7 @@
 
 Brim enables minimal-ui for the iOS 8.
 
-## The Issue
+## The Issue & The Solution
 
 In [iOS 7.1](https://developer.apple.com/library/ios/releasenotes/General/RN-iOSSDK-7.1/index.html), a property, minimal-ui, has been added for the viewport meta tag key that allows minimizing the top and bottom bars on the [iOS] as the page loads. While on a page using minimal-ui, tapping the top bar brings the bars back. Tapping back in the content dismisses them again.
 
