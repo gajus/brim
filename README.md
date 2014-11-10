@@ -11,7 +11,7 @@
 
 > Dynamic viewport management for mobile. Manage viewport in different states of device orientation. Scale document to fit viewport. Calculate the dimensions of the "minimal" iOS 8 view relative to your viewport width.
 
-You need pass an instance of Scream as part of the Brim initialization configuration.
+An instance of Scream is part of the Brim initialization configuration:
 
 ```js
 var scream,
