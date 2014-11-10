@@ -24,7 +24,7 @@
     "mocha": "^2.0.1"
   },
   "dependencies": {
-    "scream": "^2.0.0",
+    "scream": "^2.0.1",
     "sister": "^3.0.0"
   }
 }
