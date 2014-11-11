@@ -22,13 +22,30 @@ Brim = function Brim (config) {
     viewport = config.viewport;
 
     brim._setupDOMEventListeners = function () {
+        var ignoreResize;
+
+        // Media matcher is the first to pick up the orientation change.
+        global
+            .matchMedia('(orientation: portrait)')
+            .addListener(function (m) {
+                if (viewport.isMinimalView() && !m.matches) {
+                    // Ignoring the resize event when changing the orientation from portrait to landscape makes
+                    // the transition smoother.
+                    ignoreResize = true;
+                }
+            });
+
         viewport.on('orientationchangeend', function () {
-            brim._change();
+            ignoreResize = false;
+
+            brim._change('orientationchangeend');
         });
 
         // The resize event is triggered when page is loaded in MAH state with scroll offset greater than 0.
         global.addEventListener('resize', function () {
-            brim._change();
+            if (!ignoreResize) {
+                brim._change('resize');
+            }
         });
 
         // Disable window scrolling when in MAH.
@@ -85,36 +102,13 @@ Brim = function Brim (config) {
      * The mask is visible when window is not in MAH.
      */
     brim._mask = function () {
-        var width,
-            height,
-            pms = player.mask.style;
-
         if (viewport.isMinimalView()) {
-            pms.display = 'none';
+            player.mask.style.display = 'none';
         } else {
-            width = viewport.getViewportWidth();
-            height = viewport.getViewportHeight();
+            player.mask.style.display = 'block';
 
-            //console.log('mask', 'dimensions:', [width, height]);
-
-            pms.display = 'block';
-
-            pms.pointerEvents = 'none';
-
-            pms.position = 'fixed';
-            pms.zIndex = 30;
-
-            // Force repaint of the element.
-            // Fixed element is not visible outside of the chrome of the pre touch-drag state.
-            // See ./.readme/element-fixed-bug.png as a reminder of the bug.
-            // http://stackoverflow.com/questions/3485365/how-can-i-force-webkit-to-redraw-repaint-to-propagate-style-changes?lq=1
-            pms.webkitTransform = 'translateZ(0)';
-
-
-            pms.top = 0;
-            pms.left = 0;
-            pms.width = width + 'px';
-            pms.height = height + 'px';
+            player.mask.style.width = global.innerWidth + 'px';
+            player.mask.style.height = global.innerHeight + 'px';
         }
     };
 
@@ -124,26 +118,10 @@ Brim = function Brim (config) {
      * The main element remains visible beneath the mask.
      */
     brim._main = function () {
-        var minimalViewSize,
-            pms = player.main.style;
+        player.main.style.width = global.innerWidth + 'px';
+        player.main.style.height = global.innerHeight + 'px';
 
-        pms.display = 'block';
-
-        minimalViewSize = viewport.getMinimalViewSize();
-
-        width = minimalViewSize.width;
-        height = minimalViewSize.height;
-
-        // console.log('main', 'dimensions:', [width, height]);
-
-        pms.position = 'fixed';
-        pms.zIndex = 20;
-
-        // pms.webkitTransform = 'scale(1)';
-        pms.top = 0;
-        pms.left = 0;
-        pms.width = width + 'px';
-        pms.height = height + 'px';
+        brim._repaintElement(player.main);
     };
 
     /**
@@ -164,10 +142,58 @@ Brim = function Brim (config) {
     };
 
     /**
+     *
+     */
+    brim._makeMask = function () {
+        var mask = document.querySelector('#brim-mask');
+
+        mask.style.position = 'fixed';
+        mask.style.zIndex = 30;
+
+        mask.style.top = 0;
+        mask.style.left = 0;
+
+        return mask;
+    };
+
+    /**
+     *
+     */
+    brim._makeMain = function () {
+        var main = document.querySelector('#brim-main');
+
+        main.style.position = 'fixed';
+        main.style.zIndex = 20;
+
+        main.style.top = 0;
+        main.style.left = 0;
+
+        return main;
+    };
+
+    /**
+     * Fixed element is not visible outside of the chrome of the pre touch-drag state.
+     * See ./.readme/element-fixed-bug.png as a reminder of the bug.
+     *
+     * @see http://stackoverflow.com/questions/3485365/how-can-i-force-webkit-to-redraw-repaint-to-propagate-style-changes?lq=1
+     */
+    brim._repaintElement = function (element) {
+        element.style.webkitTransform = 'translateZ(0)';
+
+        element.style.display = 'none';
+        element.offsetHeight;
+        element.style.display = 'block';
+    };
+
+    /**
      * Fired when environment variables that affect the state of
      * the viewport change (e.g. orientation and window dimensions).
+     *
+     * @param {String} reason Reason for requesting the change.
      */
-    brim._change = function () {
+    brim._change = function (reason) {
+        console.log('change', reason);
+
         brim._treadmill();
         brim._main();
         brim._mask();
@@ -182,18 +208,15 @@ Brim = function Brim (config) {
     });
 
     player.treadmill = brim._makeTreadmill();
+    player.mask = brim._makeMask();
+    player.main = brim._makeMain();
 
     brim._setupDOMEventListeners();
 
-    player.main = document.querySelector('#brim-main');
-    player.mask = document.querySelector('#brim-mask');
+    brim._change('The initial trigger is required to setup treadmill height and offset.');
 
-    // The initial trigger is required to setup treadmill height and offset.
-    brim._change();
-
-    // The subsequent trigger is required to get the correct dimensions.
     setTimeout(function () {
-        brim._change();
+        brim._change('The subsequent trigger is required to get the correct dimensions.');
     }, 100);
 };
 
