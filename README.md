@@ -29,13 +29,15 @@ There are three element required to make Brim work:
 * Mask element. It is displayed to the user when device is not in the minimal-ui state. The role of the element is to instruct user to enter the minimal-ui. You have to have this element as a direct descendant of `<body>`. It has to have ID `brim-mask` and no styling that would affect the position or the dimensions of the element.
 * Main element. This element is shown when mask is hidden. You have to have this element as a direct descendant of `<body>`. It has to have ID `brim-main` and no styling that would affect the position or the dimensions of the element.
 
-When page is loaded, Brim will create a treadmill. The role of treadmill is to ensure that page content height is always greater than the viewport height. This ensures that user can enter the viewport and viewport continues to persist if you reload the page.
+When page is loaded, Brim will create a treadmill. The role of treadmill is to make sure that the page content height is always greater than the viewport height. This ensures that user can enter the viewport and viewport continues to persist if you reload the page.
 
-Upon loading the page or after changing the orientation, Brim is using [Scream](https://github.com/gajus/scream) (developed as part of this project) to detect if page is in the minimal-ui view (page that has been previously in minimal-ui and has been reloaded will persist to be in minimal-ui if content height is greater than the viewport height).
+Upon loading the page or after changing the orientation, Brim is using [Scream](https://github.com/gajus/scream) (developed as part of this project) to detect if page is in the minimal-ui view (page that has been previously in minimal-ui and has been reloaded will remain in the minimal-ui if content height is greater than the viewport height).
 
-For documentation purposes it is worth noting that you cannot use Scream to detect if device is in minimal-ui straight after the [orientationchange](https://developer.mozilla.org/en-US/docs/Web/Events/orientationchange) event because dimensions of the `window` do not reflect the new orientation until the rotation animation has ended. You have to attach a listener to the [orientationchangeend](https://github.com/gajus/orientationchangeend) (developed as part of this project) event.
+For documentation purposes it is worth noting that you cannot use Scream to detect if device is in minimal-ui straight after the [orientationchange](https://developer.mozilla.org/en-US/docs/Web/Events/orientationchange) event because `window` dimensions do not reflect the new orientation until the rotation animation has ended. You have to attach a listener to the [orientationchangeend](https://github.com/gajus/orientationchangeend) (developed as part of this project) event.
 
 When page is in the minimal-ui, Brim will disable scrolling of the document (it does this in a [safe way](http://stackoverflow.com/a/26853900/368691) that does not affect the contents of the main element). Disabling document scrolling prevents accidentally leaving the minimal-ui when scrolling upwards. As per the original iOS 7.1 spec, tapping the top bar brings back the rest of the chrome.
+
+When page is in the full view, Brim will hide the `brim-mask`.
 
 ## Download
 

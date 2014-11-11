@@ -1,9 +1,7 @@
-var Brim,
-    Sister = require('sister');
+var Brim;
 
 Brim = function Brim (config) {
     var brim,
-        sister,
         player = {},
         device,
         magicPixel = 1,
@@ -23,12 +21,12 @@ Brim = function Brim (config) {
 
     brim._setupDOMEventListeners = function () {
         viewport.on('orientationchangeend', function () {
-            sister.trigger('change');
+            brim._change();
         });
 
         // The resize event is triggered when page is loaded in MAH state with scroll offset greater than 0.
         global.addEventListener('resize', function () {
-            sister.trigger('change');
+            brim._change();
         });
 
         // Disable window scrolling when in MAH.
@@ -108,7 +106,8 @@ Brim = function Brim (config) {
             // Fixed element is not visible outside of the chrome of the pre touch-drag state.
             // See ./.readme/element-fixed-bug.png as a reminder of the bug.
             // http://stackoverflow.com/questions/3485365/how-can-i-force-webkit-to-redraw-repaint-to-propagate-style-changes?lq=1
-            pms.webkitTransform = 'scale(1)';
+            pms.webkitTransform = 'translateZ(0)';
+
 
             pms.top = 0;
             pms.left = 0;
@@ -126,26 +125,23 @@ Brim = function Brim (config) {
         var minimalViewSize,
             pms = player.main.style;
 
-        if (!viewport.isMinimalView()) {
-            pms.display = 'none';
-        } else {
-            pms.display = 'block';
+        pms.display = 'block';
 
-            minimalViewSize = viewport.getMinimalViewSize();
+        minimalViewSize = viewport.getMinimalViewSize();
 
-            width = minimalViewSize.width;
-            height = minimalViewSize.height;
+        width = minimalViewSize.width;
+        height = minimalViewSize.height;
 
-            // console.log('main', 'dimensions:', [width, height]);
+        // console.log('main', 'dimensions:', [width, height]);
 
-            pms.position = 'fixed';
-            pms.zIndex = 20;
-            pms.webkitTransform = 'scale(1)';
-            pms.top = 0;
-            pms.left = 0;
-            pms.width = width + 'px';
-            pms.height = height + 'px';
-        }
+        pms.position = 'fixed';
+        pms.zIndex = 20;
+
+        // pms.webkitTransform = 'scale(1)';
+        pms.top = 0;
+        pms.left = 0;
+        pms.width = width + 'px';
+        pms.height = height + 'px';
     };
 
     /**
@@ -165,27 +161,29 @@ Brim = function Brim (config) {
         return treadmill;
     };
 
+    /**
+     * Fired when environment variables that affect the state of
+     * the viewport change (e.g. orientation and window dimensions).
+     */
+    brim._change = function () {
+        brim._treadmill();
+        brim._main();
+        brim._mask();
+    };
+
     player.treadmill = brim._makeTreadmill();
 
     brim._setupDOMEventListeners();
 
-    sister = Sister();
-
     player.main = document.querySelector('#brim-main');
     player.mask = document.querySelector('#brim-mask');
 
-    sister.on('change', function () {
-        brim._treadmill();
-        brim._main();
-        brim._mask();
-    });
-
     // The initial trigger is required to setup treadmill height and offset.
-    sister.trigger('change');
+    brim._change();
 
     // The subsequent trigger is required to get the correct dimensions.
     setTimeout(function () {
-        sister.trigger('change');
+        brim._change();
     }, 100);
 };
 

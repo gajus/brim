@@ -5,75 +5,10 @@
  */
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);throw new Error("Cannot find module '"+o+"'")}var f=n[o]={exports:{}};t[o][0].call(f.exports,function(e){var n=t[o][1][e];return s(n?n:e)},f,f.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 (function (global){
-/**
-* @link https://github.com/gajus/sister for the canonical source repository
-* @license https://github.com/gajus/sister/blob/master/LICENSE BSD 3-Clause
-*/
-function Sister () {
-    var sister = {},
-        events = {};
-
-    /**
-     * @name handler
-     * @function
-     * @param {Object} data Event data.
-     */
-
-    /**
-     * @param {String} name Event name.
-     * @param {handler} handler
-     * @return {listener}
-     */
-    sister.on = function (name, handler) {
-        var listener = {name: name, handler: handler};
-        events[name] = events[name] || [];
-        events[name].unshift(listener);
-        return listener;
-    };
-
-    /**
-     * @param {listener}
-     */
-    sister.off = function (listener) {
-        var index = events[listener.name].indexOf(listener);
-
-        if (index != -1) {
-            events[listener.name].splice(index, 1);
-        }
-    };
-
-    /**
-     * @param {String} name Event name.
-     * @param {Object} data Event data.
-     */
-    sister.trigger = function (name, data) {
-        var listeners = events[name],
-            i;
-
-        if (listeners) {
-            i = listeners.length;
-            while (i--) {
-                listeners[i].handler(data);
-            }
-        }
-    };
-
-    return sister;
-}
-
-global.gajus = global.gajus || {};
-global.gajus.Sister = Sister;
-
-module.exports = Sister;
-}).call(this,typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],2:[function(require,module,exports){
-(function (global){
-var Brim,
-    Sister = require('sister');
+var Brim;
 
 Brim = function Brim (config) {
     var brim,
-        sister,
         player = {},
         device,
         magicPixel = 1,
@@ -93,12 +28,12 @@ Brim = function Brim (config) {
 
     brim._setupDOMEventListeners = function () {
         viewport.on('orientationchangeend', function () {
-            sister.trigger('change');
+            brim._change();
         });
 
         // The resize event is triggered when page is loaded in MAH state with scroll offset greater than 0.
         global.addEventListener('resize', function () {
-            sister.trigger('change');
+            brim._change();
         });
 
         // Disable window scrolling when in MAH.
@@ -178,7 +113,8 @@ Brim = function Brim (config) {
             // Fixed element is not visible outside of the chrome of the pre touch-drag state.
             // See ./.readme/element-fixed-bug.png as a reminder of the bug.
             // http://stackoverflow.com/questions/3485365/how-can-i-force-webkit-to-redraw-repaint-to-propagate-style-changes?lq=1
-            pms.webkitTransform = 'scale(1)';
+            pms.webkitTransform = 'translateZ(0)';
+
 
             pms.top = 0;
             pms.left = 0;
@@ -196,26 +132,23 @@ Brim = function Brim (config) {
         var minimalViewSize,
             pms = player.main.style;
 
-        if (!viewport.isMinimalView()) {
-            pms.display = 'none';
-        } else {
-            pms.display = 'block';
+        pms.display = 'block';
 
-            minimalViewSize = viewport.getMinimalViewSize();
+        minimalViewSize = viewport.getMinimalViewSize();
 
-            width = minimalViewSize.width;
-            height = minimalViewSize.height;
+        width = minimalViewSize.width;
+        height = minimalViewSize.height;
 
-            // console.log('main', 'dimensions:', [width, height]);
+        // console.log('main', 'dimensions:', [width, height]);
 
-            pms.position = 'fixed';
-            pms.zIndex = 20;
-            pms.webkitTransform = 'scale(1)';
-            pms.top = 0;
-            pms.left = 0;
-            pms.width = width + 'px';
-            pms.height = height + 'px';
-        }
+        pms.position = 'fixed';
+        pms.zIndex = 20;
+
+        // pms.webkitTransform = 'scale(1)';
+        pms.top = 0;
+        pms.left = 0;
+        pms.width = width + 'px';
+        pms.height = height + 'px';
     };
 
     /**
@@ -235,27 +168,29 @@ Brim = function Brim (config) {
         return treadmill;
     };
 
+    /**
+     * Fired when environment variables that affect the state of
+     * the viewport change (e.g. orientation and window dimensions).
+     */
+    brim._change = function () {
+        brim._treadmill();
+        brim._main();
+        brim._mask();
+    };
+
     player.treadmill = brim._makeTreadmill();
 
     brim._setupDOMEventListeners();
 
-    sister = Sister();
-
     player.main = document.querySelector('#brim-main');
     player.mask = document.querySelector('#brim-mask');
 
-    sister.on('change', function () {
-        brim._treadmill();
-        brim._main();
-        brim._mask();
-    });
-
     // The initial trigger is required to setup treadmill height and offset.
-    sister.trigger('change');
+    brim._change();
 
     // The subsequent trigger is required to get the correct dimensions.
     setTimeout(function () {
-        sister.trigger('change');
+        brim._change();
     }, 100);
 };
 
@@ -264,4 +199,4 @@ global.gajus.Brim = Brim;
 
 module.exports = Brim;
 }).call(this,typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"sister":1}]},{},[2])
+},{}]},{},[1])
