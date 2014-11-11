@@ -1,11 +1,13 @@
-var Brim;
+var Brim,
+    Sister = require('sister');
 
 Brim = function Brim (config) {
     var brim,
         player = {},
         device,
         magicPixel = 1,
-        viewport;
+        viewport,
+        eventEmitter;
     
     if (!(this instanceof Brim)) {
         return new Brim(config);
@@ -170,6 +172,14 @@ Brim = function Brim (config) {
         brim._main();
         brim._mask();
     };
+
+    eventEmitter = Sister();
+
+    brim.on = eventEmitter.on;
+
+    viewport.on('viewchange', function (e) {
+        eventEmitter.trigger('viewchange', e);
+    });
 
     player.treadmill = brim._makeTreadmill();
 
