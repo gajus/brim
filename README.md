@@ -50,6 +50,43 @@ brim.on('viewchange', function (e) {
 });
 ```
 
+### Quick Start
+
+```html
+<!DOCTYPE html>
+<html>
+<head>
+    
+</head>
+<body>
+    <div id="brim-mask">
+        <!-- Content displayed to the user when in full view. -->
+    </div>
+    <div id="brim-main">
+        <!-- Content displayed to the user when in minimal view.  -->
+    </div>
+
+    <script src="./bower_components/scream/dist/scream.js"></script>
+    <script src="./bower_components/brim/dist/brim.js"></script>
+    <script>
+    var scream,
+        brim;
+
+    scream = gajus.Scream({
+        width: {
+            portrait: 320,
+            landscape: 640
+        }
+    });
+
+    brim = gajus.Brim({
+        viewport: scream
+    });
+    </script>
+</body>
+</html>
+```
+
 ## Download
 
 Using [Bower](http://bower.io/):

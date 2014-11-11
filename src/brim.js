@@ -21,6 +21,9 @@ Brim = function Brim (config) {
 
     viewport = config.viewport;
 
+    /**
+     *
+     */
     brim._setupDOMEventListeners = function () {
         var ignoreResize;
 
