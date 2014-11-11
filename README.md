@@ -45,7 +45,25 @@ When page is in the full view, Brim will show the mask element.
 <!DOCTYPE html>
 <html>
 <head>
-    
+    <script src="./bower_components/scream/dist/scream.js"></script>
+    <script src="./bower_components/brim/dist/brim.js"></script>
+    <script>
+    window.addEventListener('DOMContentLoaded', function () {
+        var scream,
+            brim;
+
+        scream = gajus.Scream({
+            width: {
+                portrait: 320,
+                landscape: 640
+            }
+        });
+
+        brim = gajus.Brim({
+            viewport: scream
+        });
+    });
+    </script>
 </head>
 <body>
     <div id="brim-mask">
@@ -54,24 +72,6 @@ When page is in the full view, Brim will show the mask element.
     <div id="brim-main">
         <!-- Content displayed to the user when in minimal view.  -->
     </div>
-
-    <script src="./bower_components/scream/dist/scream.js"></script>
-    <script src="./bower_components/brim/dist/brim.js"></script>
-    <script>
-    var scream,
-        brim;
-
-    scream = gajus.Scream({
-        width: {
-            portrait: 320,
-            landscape: 640
-        }
-    });
-
-    brim = gajus.Brim({
-        viewport: scream
-    });
-    </script>
 </body>
 </html>
 ```
