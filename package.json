@@ -2,7 +2,7 @@
   "name": "brim",
   "description": "",
   "keywords": [],
-  "version": "1.0.3",
+  "version": "1.0.4",
   "main": "src/brim.js",
   "author": "Gajus Kuizinas <gk@anuary.com>",
   "repository": {
