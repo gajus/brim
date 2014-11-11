@@ -1,5 +1,5 @@
 /**
- * @version 1.0.2
+ * @version 1.0.3
  * @link https://github.com/gajus/brim for the canonical source repository
  * @license https://github.com/gajus/brim/blob/master/LICENSE BSD 3-Clause
  */

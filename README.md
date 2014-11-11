@@ -35,7 +35,7 @@ Upon loading the page or after changing the orientation, Brim is using [Scream](
 
 For documentation purposes it is worth noting that you cannot use Scream to detect if device is in minimal-ui straight after the [orientationchange](https://developer.mozilla.org/en-US/docs/Web/Events/orientationchange) event because dimensions of the `window` do not reflect the new orientation until the rotation animation has ended. You have to attach a listener to the [orientationchangeend](https://github.com/gajus/orientationchangeend) (developed as part of this project) event.
 
-If page is in the minimal-ui, then Brim will disable scrolling of the document (it does this in a [safe way](http://stackoverflow.com/a/26853900/368691), without affecting the contents of the main element). Disabling document scrolling prevents accidentally leaving the minimal-ui when scrolling up the page. As per the original spec, tapping the top bar brings the rest of the chrome.
+When page is in the minimal-ui, Brim will disable scrolling of the document (it does this in a [safe way](http://stackoverflow.com/a/26853900/368691), without affecting the contents of the main element). Disabling document scrolling prevents accidentally leaving the minimal-ui when scrolling up the page. As per the original spec, tapping the top bar brings the rest of the chrome.
 
 ## Download
 
