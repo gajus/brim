@@ -23,7 +23,6 @@ Brim = function Brim (config) {
 
     brim._setupDOMEventListeners = function () {
         viewport.on('orientationchangeend', function () {
-            console.log('viewport.isMinimalView()', viewport.isMinimalView());
             sister.trigger('change');
         });
 
@@ -32,12 +31,23 @@ Brim = function Brim (config) {
             sister.trigger('change');
         });
 
-        global.addEventListener('touchstart', function (e) {
-            // Disable window scrolling when in MAH.
-            if (viewport.isMinimalView()) {
-                e.preventDefault();
-            }
-        });
+        // Disable window scrolling when in MAH.
+        // @see http://stackoverflow.com/a/26853900/368691
+        (function () {
+            var firstMove;
+
+            global.document.addEventListener('touchstart', function (e) {
+                firstMove = true;
+            });
+
+            global.document.addEventListener('touchmove', function (e) {
+                if (viewport.isMinimalView() && firstMove) {
+                    e.preventDefault();
+                }
+
+                firstMove = false;
+            });
+        } ());
     };
 
     /**
@@ -155,9 +165,9 @@ Brim = function Brim (config) {
         return treadmill;
     };
 
-    brim._setupDOMEventListeners();
-
     player.treadmill = brim._makeTreadmill();
+
+    brim._setupDOMEventListeners();
 
     sister = Sister();
 
