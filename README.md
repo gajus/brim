@@ -37,7 +37,7 @@ For documentation purposes it is worth noting that you cannot use Scream to dete
 
 When page is in the minimal-ui, Brim will disable scrolling of the document (it does this in a [safe way](http://stackoverflow.com/a/26853900/368691) that does not affect the contents of the main element). Disabling document scrolling prevents accidentally leaving the minimal-ui when scrolling upwards. As per the original iOS 7.1 spec, tapping the top bar brings back the rest of the chrome.
 
-When page is in the full view, Brim will show the mask element, while treadmill in the background enables user to scroll down.
+When page is in the full view, Brim will show the mask element.
 
 ## Download
 
