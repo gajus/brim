@@ -39,18 +39,7 @@ When page is in the minimal-ui, Brim will disable scrolling of the document (it 
 
 When page is in the full view, Brim will show the mask element.
 
-## Events
-
-```js
-brim.on('viewchange', function (e) {
-    // Invoked when view changes.
-
-    // @var {String} 'full', 'minimal'
-    e.viewName;
-});
-```
-
-### Quick Start
+## Quick Start
 
 ```html
 <!DOCTYPE html>
@@ -85,6 +74,17 @@ brim.on('viewchange', function (e) {
     </script>
 </body>
 </html>
+```
+
+## Events
+
+```js
+brim.on('viewchange', function (e) {
+    // Invoked when view changes.
+
+    // @var {String} 'full', 'minimal'
+    e.viewName;
+});
 ```
 
 ## Download
