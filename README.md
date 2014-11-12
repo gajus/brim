@@ -5,6 +5,8 @@
 
 View ([minimal-ui](#minimal-ui)) manager for iOS 8.
 
+[Try it](http://gajus.com/sandbox/brim/demo/) and [tweet it](https://twitter.com/intent/retweet?tweet_id=532479715366674432) if you like it.
+
 ![Using Brim with iOS simulator.](./.readme/brim.gif)
 
 ## Contents

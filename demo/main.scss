@@ -5,7 +5,7 @@ p {
 }
 
 body {
-    font: normal 16px/25px 'Helvetica Neue', Helvetica, Arial, freesans, sans-serif;
+    font: normal 16px/25px 'Helvetica Neue', Helvetica, Arial, freesans, sans-serif; background: #FCD424;
 
     &.minimal {
         background: #1E824C;
@@ -16,13 +16,17 @@ body {
     }
 }
 
+p {
+    margin: 20px;
+}
+
+#not-ios-8 {
+    display: none;
+}
+
 #brim-mask,
 #brim-main {
-    color: #fff; pointer-events: none;
-
-    p {
-        margin: 20px;
-    }
+    color: #fff; pointer-events: none; display: none;
 }
 
 #brim-mask {

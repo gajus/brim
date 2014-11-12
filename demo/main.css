@@ -3,17 +3,23 @@ html, body, p {
   padding: 0; }
 
 body {
-  font: normal 16px/25px 'Helvetica Neue', Helvetica, Arial, freesans, sans-serif; }
+  font: normal 16px/25px 'Helvetica Neue', Helvetica, Arial, freesans, sans-serif;
+  background: #FCD424; }
   body.minimal {
     background: #1E824C; }
   body.full {
     background: #663399; }
 
+p {
+  margin: 20px; }
+
+#not-ios-8 {
+  display: none; }
+
 #brim-mask, #brim-main {
   color: #fff;
-  pointer-events: none; }
-  #brim-mask p, #brim-main p {
-    margin: 20px; }
+  pointer-events: none;
+  display: none; }
 
 #brim-mask {
   background: #663399; }

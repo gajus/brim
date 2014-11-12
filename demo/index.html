@@ -3,8 +3,9 @@
 <head>
     <link href="./main.css" rel="stylesheet">
     
-    <script src="./../../dist/brim.js"></script>
-    <script src="./../../bower_components/scream/dist/scream.js"></script>
+    <script src="./../dist/brim.js"></script>
+    <script src="./../node_modules/scream/dist/scream.js"></script>
+    <script src="./../node_modules/platform/platform.js"></script>
 </head>
 <body>
     <div id="brim-main">
@@ -18,25 +19,34 @@
         <p>Behind me is the <b>treadmill</b> element. It has been generated dynamically. It is used to give user plenty of space to scroll down.</p>
         <p>Scroll down to hide me.</p>
     </div>
+    <div id="not-ios-8">
+        <p>This demo has been designed for iOS 8.</p>
+    </div>
     
     <script>
     var scream,
         brim;
 
-    scream = gajus.Scream({
-        width: {
-            portrait: 320,
-            landscape: 568
-        }
-    });
 
-    brim = gajus.Brim({
-        viewport: scream
-    });
 
-    brim.on('viewchange', function (e) {
-        document.body.className = e.viewName;
-    });
+    if (platform.os.family == 'iOS' && parseInt(platform.os.version, 10) > 8 || platform.ua.indexOf('like Mac OS X') != -1) {
+        scream = gajus.Scream({
+            width: {
+                portrait: 320,
+                landscape: 568
+            }
+        });
+
+        brim = gajus.Brim({
+            viewport: scream
+        });
+
+        brim.on('viewchange', function (e) {
+            document.body.className = e.viewName;
+        });
+    } else {
+        document.querySelector('#not-ios-8').style.display = 'block';
+    }
     </script>
 </body>
 </html>

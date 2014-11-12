@@ -1,1 +1,0 @@
-The nature of the script makes it impossible to run automated tests (iOS does not provide a way to programmatically control the orientation). This servers as the acceptance test.
