@@ -44,6 +44,10 @@ Brim = function Brim (config) {
             brim._change('orientationchangeend');
         });
 
+        viewport.on('viewchange', function (e) {
+            eventEmitter.trigger('viewchange', e);
+        });
+
         // The resize event is triggered when page is loaded in MAH state with scroll offset greater than 0.
         global.addEventListener('resize', function () {
             if (!ignoreResize) {
@@ -71,31 +75,13 @@ Brim = function Brim (config) {
     };
 
     /**
-     * Sets the dimensions of the treadmill player and adjusts the window scroll offset.
-     * Treadmill height is set to 2 times the size of the screen height; device.chromeHeight.
-     * 
-     * Treadmill larger than the screen height allows user to scroll downwards to enable the fullscreen.
-     * 2 times the size of screen height, allows the maximum scrolling distance that can be achieved
-     * with a single touch-drag gesture.
-     * 
-     * The purpose of the scroll offset is to overcome a bug in Safari.
      * Setting the offset ensures that "resize" event is triggered upon loading the page.
-     * After the resize event we can calculate the true window height.
+     * A large (somewhat arbitrary) offset ensures that the page view does not change after device orientation.
      *
      * @see http://stackoverflow.com/questions/26784456/how-to-get-window-height-when-in-fullscreen
      */
     brim._treadmill = function () {
-        var width = viewport.getViewportWidth(),
-            height = viewport.getViewportHeight() * 2,
-            scrollTo = 1,
-            pts = player.treadmill.style;
-
-        // console.log('treadmill', 'dimensions:', [width, height], 'scrollTo:', scrollTo);
-
-        pts.width = width + 'px';
-        pts.height = height + 'px';
-
-        global.scrollTo(0, scrollTo);
+        global.scrollTo(0, 1000);
     };
 
     /**
@@ -140,6 +126,11 @@ Brim = function Brim (config) {
         treadmill.style.position = 'relative';
         treadmill.style.zIndex = 10;
         treadmill.style.left = 0;
+
+        // Why make it such a large number?
+        // Huge body height makes the size and position of the scrollbar fixed.
+        treadmill.style.width = '1px';
+        treadmill.style.height = '9999999999999999px';
 
         return treadmill;
     };
@@ -195,7 +186,7 @@ Brim = function Brim (config) {
      * @param {String} reason Reason for requesting the change.
      */
     brim._change = function (reason) {
-        console.log('change', reason);
+        //console.log('change', reason);
 
         brim._treadmill();
         brim._main();
@@ -205,10 +196,6 @@ Brim = function Brim (config) {
     eventEmitter = Sister();
 
     brim.on = eventEmitter.on;
-
-    viewport.on('viewchange', function (e) {
-        eventEmitter.trigger('viewchange', e);
-    });
 
     player.treadmill = brim._makeTreadmill();
     player.mask = brim._makeMask();
