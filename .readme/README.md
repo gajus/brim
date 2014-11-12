@@ -19,11 +19,11 @@ There are several pre-conditions and obstacles to manage the view state, e.g. fo
 
 Brim solves all of these issues and provides a seamless ground for controlling the state of the view:
 
-* It determines when user is in the minimal-ui.
-* It determines when the view changes.
-* It provides a UI to instruct user to enter the minimal-ui.
-* It locks user in the minimal-ui (following the spec defined in the iOS 7.1).
-* It makes the minimal-ui persist.
+* Determines when user is in the minimal-ui.
+* Determines when the view changes.
+* Provides a UI to instruct user to enter the minimal-ui.
+* Locks user in the minimal-ui (following the spec defined in the iOS 7.1).
+* Makes the view persist when page is reloaded or device orientation changes.
 
 ## The Underlying Implementation
 
