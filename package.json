@@ -8,7 +8,7 @@
     "mobile",
     "viewport"
   ],
-  "version": "1.0.8",
+  "version": "1.0.9",
   "main": "src/brim.js",
   "author": "Gajus Kuizinas <gk@anuary.com>",
   "repository": {
