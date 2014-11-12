@@ -4,8 +4,6 @@ var Brim,
 Brim = function Brim (config) {
     var brim,
         player = {},
-        device,
-        magicPixel = 1,
         viewport,
         eventEmitter;
     
@@ -25,34 +23,16 @@ Brim = function Brim (config) {
      *
      */
     brim._setupDOMEventListeners = function () {
-        var ignoreResize;
-
-        // Media matcher is the first to pick up the orientation change.
-        global
-            .matchMedia('(orientation: portrait)')
-            .addListener(function (m) {
-                if (viewport.isMinimalView() && !m.matches) {
-                    // Ignoring the resize event when changing the orientation from portrait to landscape makes
-                    // the transition smoother.
-                    ignoreResize = true;
-                }
-            });
-
         viewport.on('orientationchangeend', function () {
-            ignoreResize = false;
-
-            brim._change('orientationchangeend');
+            brim._treadmill();
+            brim._main();
         });
 
         viewport.on('viewchange', function (e) {
-            eventEmitter.trigger('viewchange', e);
-        });
+            brim._main();
+            brim._mask();
 
-        // The resize event is triggered when page is loaded in MAH state with scroll offset greater than 0.
-        global.addEventListener('resize', function () {
-            if (!ignoreResize) {
-                brim._change('resize');
-            }
+            eventEmitter.trigger('viewchange', e);
         });
 
         // Disable window scrolling when in MAH.
@@ -86,9 +66,9 @@ Brim = function Brim (config) {
 
     /**
      * Sets the dimensions and position of the drag mask player. The mask is an overlay on top
-     * of the treadmill and the main content. It does not respond to the touch events.
+     * of the treadmill and the main content.
      *
-     * The mask is visible when window is not in MAH.
+     * The mask is visible when view is full.
      */
     brim._mask = function () {
         if (viewport.isMinimalView()) {
@@ -97,7 +77,9 @@ Brim = function Brim (config) {
             player.mask.style.display = 'block';
 
             player.mask.style.width = global.innerWidth + 'px';
-            player.mask.style.height = global.innerHeight + 'px';
+            player.mask.style.height = (global.innerHeight * 2) + 'px';
+
+            brim._repaintElement(player.mask);
         }
     };
 
@@ -179,20 +161,6 @@ Brim = function Brim (config) {
         element.style.display = 'block';
     };
 
-    /**
-     * Fired when environment variables that affect the state of
-     * the viewport change (e.g. orientation and window dimensions).
-     *
-     * @param {String} reason Reason for requesting the change.
-     */
-    brim._change = function (reason) {
-        //console.log('change', reason);
-
-        brim._treadmill();
-        brim._main();
-        brim._mask();
-    };
-
     eventEmitter = Sister();
 
     brim.on = eventEmitter.on;
@@ -202,12 +170,6 @@ Brim = function Brim (config) {
     player.main = brim._makeMain();
 
     brim._setupDOMEventListeners();
-
-    brim._change('The initial trigger is required to setup treadmill height and offset.');
-
-    setTimeout(function () {
-        brim._change('The subsequent trigger is required to get the correct dimensions.');
-    }, 100);
 };
 
 global.gajus = global.gajus || {};
