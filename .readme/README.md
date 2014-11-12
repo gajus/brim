@@ -17,11 +17,13 @@ The minimal-ui viewport property is [no longer supported](https://developer.appl
 
 There are several pre-conditions and obstacles to manage the view state, e.g. for minimal-ui to work, there has to be enough content to enable user to scroll; for minimal-ui to persist, window scroll must be offset on page load and after orientation change. Furthermore, [there is no way of calculating the dimensions of the minimal-ui](http://stackoverflow.com/questions/26801943/how-to-get-the-window-size-of-fullscreen-view-when-not-in-fullscreen) using the `screen` variable, and thus no way of telling when user is in the minimal-ui in advance.
 
-* Brim solves all of the issues associated with determining when user is in the minimal-ui
-* It provides control over the UI required to instruct user to enter the minimal-ui.
+Brim solves all of these issues and provides a seamless ground for controlling the state of the view:
+
+* It determines when user is in the minimal-ui.
+* It determines when the view changes.
+* It provides a UI to instruct user to enter the minimal-ui.
 * It locks user in the minimal-ui (following the spec defined in the iOS 7.1).
 * It makes the minimal-ui persist.
-* It does not jeopardize functionality of the main application.
 
 ## The Underlying Implementation
 
