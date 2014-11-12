@@ -27,7 +27,7 @@ Brim solves all of the issues associated with determining the state of the UI an
 * Locks user in the minimal-ui (following the spec defined in the iOS 7.1).
 * Makes the view persist when page is reloaded or device orientation changes.
 
-## The Underlying Implementation
+## Setup
 
 When page is loaded, Brim will create a **treadmill** element. Treadmill element is used to give user space to scroll. Presence of the treadmill element ensures that user can enter the viewport and viewport continues to persist if user reloads the page or changes device orientation. It is invisible to the user the entire time. This element has ID `brim-treadmill`.
 
@@ -36,6 +36,8 @@ You need to create two elements: mask and main. **Mask** is displayed to the use
 * You have to have these elements as direct descendants of `<body>`.
 * The IDs must be `brim-mask` and `brim-main`.
 * Do not apply [styling](#styling) that would affect the position or the dimensions of these elements.
+
+## The Underlying Implementation
 
 Upon loading the page or after changing the orientation, Brim is using [Scream](https://github.com/gajus/scream) (developed as part of this project) to detect if page is in the minimal-ui view (page that has been previously in minimal-ui and has been reloaded will remain in the minimal-ui if content height is greater than the viewport height).
 
