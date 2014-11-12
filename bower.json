@@ -1,8 +1,14 @@
 {
   "name": "brim",
-  "description": "",
+  "description": "Minimal-ui (fullscreen) manager for iOS 8.",
   "version": "1.0.6",
-  "keywords": [],
+  "keywords": [
+    "minimal-ui",
+    "ios",
+    "fullscreen",
+    "mobile",
+    "viewport"
+  ],
   "license": "BSD-3-Clause",
   "authors": [
     "Gajus Kuizinas <gk@anuary.com>"

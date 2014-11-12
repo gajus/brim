@@ -3,7 +3,7 @@
 [![NPM version](https://badge.fury.io/js/brim.svg)](http://badge.fury.io/js/brim)
 [![Bower version](https://badge.fury.io/bo/brim.svg)](http://badge.fury.io/bo/brim)
 
-Brim [enables minimal-ui](#the-solution) for the iOS 8.
+Brim [minimal-ui](#minimal-ui) (fullscreen) manager for iOS 8.
 
 ![Using Brim with iOS simulator.](./.readme/brim.gif)
 

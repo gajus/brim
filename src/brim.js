@@ -36,7 +36,7 @@ Brim = function Brim (config) {
             eventEmitter.trigger('viewchange', e);
         });
 
-        // Disable window scrolling when in MAH.
+        // Disable window scrolling when in minimal view.
         // @see http://stackoverflow.com/a/26853900/368691
         (function () {
             var firstMove;
