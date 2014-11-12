@@ -94,6 +94,10 @@ Do not style the treadmill.
 
 ## Events
 
+### `viewchange`
+
+Invoked on page load and when view changes.
+
 ```js
 brim.on('viewchange', function (e) {
     // Invoked when view changes.
