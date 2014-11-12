@@ -13,11 +13,11 @@ View ([minimal-ui](#minimal-ui)) manager for iOS 8.
 
 In [iOS 7.1](https://developer.apple.com/library/ios/releasenotes/General/RN-iOSSDK-7.1/index.html), a property, minimal-ui, has been added for the viewport meta tag key that allows minimizing the top and bottom bars in Safari as the page loads. While on a page using minimal-ui, tapping the top bar brings the bars back. Tapping back in the content dismisses them again.
 
-## The Issue
+### The Issue
 
 The minimal-ui viewport property is [no longer supported](https://developer.apple.com/library/ios/releasenotes/General/RN-iOSSDK-8.0/) in iOS 8.
 
-## The Solution
+### The Solution
 
 The minimal-ui itself is not gone. User can enter the minimal-ui with a "touch-drag down" gesture.
 
@@ -25,7 +25,7 @@ There are several pre-conditions, such as that there has to be enough content to
 
 Brim tackles all of the issues associated with determining when user is in the minimal-ui, a method of instructing user to enter the minimal-ui, and a mechanism to lock user in the minimal-ui following the spec defined in the iOS 7.1.
 
-## The Underlying Implementation
+### The Underlying Implementation
 
 There are three element required to make Brim work:
 
