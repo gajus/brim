@@ -10,7 +10,7 @@ View ([minimal-ui](#minimal-ui)) manager for iOS 8.
 ## Contents
 
 - [`minimal-ui`](#minimalui)
-    - [The Underlying Implementation](#the-underlying-implementation)
+- [The Underlying Implementation](#the-underlying-implementation)
 - [Quick Start](#quick-start)
 - [Styling](#styling)
 - [Events](#events)
@@ -28,7 +28,7 @@ The minimal-ui viewport property is [no longer supported](https://developer.appl
 
 Brim tackles all of the issues associated with determining when user is in the minimal-ui, a method of instructing user to enter the minimal-ui, and a mechanism to lock user in the minimal-ui following the spec defined in the iOS 7.1.
 
-### The Underlying Implementation
+## The Underlying Implementation
 
 There are three element required to make Brim work:
 
