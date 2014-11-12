@@ -96,6 +96,7 @@ Brim = function Brim (config) {
         viewport.on('orientationchangeend', function () {
             brim._treadmill();
             brim._main();
+            brim._mask();
         });
 
         viewport.on('viewchange', function (e) {
