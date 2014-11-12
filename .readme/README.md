@@ -29,13 +29,14 @@ Brim solves all of the issues associated with determining the state of the UI an
 
 ## The Underlying Implementation
 
-There are three elements at play:
+When page is loaded, Brim will create a **treadmill** element. Treadmill element is used to give user space to scroll. Presence of the treadmill element ensures that user can enter the viewport and viewport continues to persist if user reloads the page or changes device orientation. It is invisible to the user the entire time. This element has ID `brim-treadmill`.
 
-* **Treadmill**. Treadmill element is used to give user space to scroll. The element is dynamically created without you having to do anything. It is invisible to the user the entire time. This element has ID `brim-treadmill`.
-* **Mask** element. It is displayed to the user when device is not in the minimal-ui state. The role of the element is to instruct user to enter the minimal-ui. You have to have this element as a direct descendant of `<body>`. It has to have ID `brim-mask` and no styling that would affect the position or the dimensions of the element.
-* **Main** element. This element is shown when mask is hidden. You have to have this element as a direct descendant of `<body>`. It has to have ID `brim-main` and no styling that would affect the position or the dimensions of the element.
+You need to create two elements:
 
-When page is loaded, Brim will create a treadmill. The role of treadmill is to make sure that the page content height is always greater than the viewport height. This ensures that user can enter the viewport and viewport continues to persist if you reload the page.
+* **Mask**. It is displayed to the user when page is in the full view. The role of the element is to instruct user to enter the minimal-ui.
+* **Main**. This element is shown when mask is hidden.
+
+You have to have these elements as direct descendants of `<body>`. The IDs must be `brim-mask` and `brim-main`. Do not apply [styling](#styling) that would affect the position or the dimensions of these elements.
 
 Upon loading the page or after changing the orientation, Brim is using [Scream](https://github.com/gajus/scream) (developed as part of this project) to detect if page is in the minimal-ui view (page that has been previously in minimal-ui and has been reloaded will remain in the minimal-ui if content height is greater than the viewport height).
 
