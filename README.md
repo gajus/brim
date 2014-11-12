@@ -30,7 +30,7 @@ There are several pre-conditions and obstacles to manage the view state, e.g. fo
 
 * Brim solves all of the issues associated with determining when user is in the minimal-ui
 * It provides control over the UI required to instruct user to enter the minimal-ui.
-* It instigates mechanism that locks user in the minimal-ui (following the spec defined in the iOS 7.1).
+* It locks user in the minimal-ui (following the spec defined in the iOS 7.1).
 * It does not jeopardize functionality of the main application.
 
 ## The Underlying Implementation
