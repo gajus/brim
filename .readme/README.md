@@ -1,7 +1,7 @@
 # Brim
 
-[![NPM version](https://badge.fury.io/js/brim.svg)](http://badge.fury.io/js/brim)
-[![Bower version](https://badge.fury.io/bo/brim.svg)](http://badge.fury.io/bo/brim)
+[![NPM version](https://badge.fury.io/js/brim.svg?cache=123)](http://badge.fury.io/js/brim)
+[![Bower version](https://badge.fury.io/bo/brim.svg?cache=123)](http://badge.fury.io/bo/brim)
 
 View ([minimal-ui](#minimal-ui)) manager for iOS 8.
 
