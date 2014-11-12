@@ -9,14 +9,14 @@ View ([minimal-ui](#minimal-ui)) manager for iOS 8.
 
 ## Contents
 
-- [minimal-ui](#minimalui)
+- [minimal-ui](#minimal-ui)
 - [Features](#features)
 - [The Underlying Implementation](#the-underlying-implementation)
 - [Quick Start](#quick-start)
 - [Styling](#styling)
 - [Events](#events)
     - [`viewchange`](#viewchange)
-- [Detecting iOS 8](#detecting-ios-)
+- [Detecting iOS 8](#detecting-ios-8)
 - [Download](#download)
 
 

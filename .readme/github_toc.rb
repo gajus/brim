@@ -96,7 +96,7 @@ headers.each do |m|
   indent = "    " * (m[0].length - top_level)
   title = m[1]
   # Generate the GitHub style ID references
-  link = title.gsub(/[^ a-z]/i,'').gsub(/ +/,"-").downcase
+  link = title.gsub(/[^ a-z\-0-9]/i,'').gsub(/ +/,"-").downcase
   toc += "#{indent}- [#{title}](##{link})\n"
 end
 
