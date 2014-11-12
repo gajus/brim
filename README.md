@@ -10,6 +10,7 @@ View ([minimal-ui](#minimal-ui)) manager for iOS 8.
 ## Contents
 
 - [minimal-ui](#minimalui)
+- [Features](#features)
 - [The Underlying Implementation](#the-underlying-implementation)
 - [Quick Start](#quick-start)
 - [Styling](#styling)
@@ -28,7 +29,9 @@ The minimal-ui viewport property is [no longer supported](https://developer.appl
 
 There are several pre-conditions and obstacles to manage the view state, e.g. for minimal-ui to work, there has to be enough content to enable user to scroll; for minimal-ui to persist, window scroll must be offset on page load and after orientation change. Furthermore, [there is no way of calculating the dimensions of the minimal-ui](http://stackoverflow.com/questions/26801943/how-to-get-the-window-size-of-fullscreen-view-when-not-in-fullscreen) using the `screen` variable, and thus no way of telling when user is in the minimal-ui in advance.
 
-Brim solves all of these issues and provides a seamless ground for controlling the state of the view:
+## Features
+
+Brim solves all of the issues associated with determining the state of the UI and controlling the persistence. Specifically:
 
 * Determines when user is in the minimal-ui.
 * Determines when the view changes.
