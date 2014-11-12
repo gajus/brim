@@ -7,20 +7,7 @@ View ([minimal-ui](#minimal-ui)) manager for iOS 8.
 
 ![Using Brim with iOS simulator.](./.readme/brim.gif)
 
-## Contents
-
-- [Minimal-ui](#minimalui)
-- [The Issue](#the-issue)
-- [The Solution](#the-solution)
-- [The Underlying Implementation](#the-underlying-implementation)
-- [Quick Start](#quick-start)
-- [Styling](#styling)
-- [Events](#events)
-    - [`viewchange`](#viewchange)
-- [Detecting iOS 8](#detecting-ios-)
-- [Download](#download)
-
-
+[toc 3]
 
 ## Minimal-ui
 

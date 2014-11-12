@@ -6,7 +6,8 @@ var gulp = require('gulp'),
     rename = require('gulp-rename'),
     uglify = require('gulp-uglify'),
     browserify = require('gulp-browserify'),
-    jsonfile = require('jsonfile');
+    jsonfile = require('jsonfile'),
+    exec = require('child_process').exec;
 
 gulp.task('lint', function () {
     return gulp
@@ -58,8 +59,13 @@ gulp.task('test', ['version'], function (cb) {
         .pipe(mocha());
 });
 
+gulp.task('readme', function () {
+    exec('ruby ./.readme/github_toc.rb ./.readme/README.md ./README.md', {cwd: __dirname});
+});
+
 gulp.task('watch', function () {
     gulp.watch(['./src/*', './tests/*', './package.json'], ['default']);
+    gulp.watch('./.readme/README.md', ['readme']);
 });
 
 gulp.task('default', ['test']);
