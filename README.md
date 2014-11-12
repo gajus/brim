@@ -7,6 +7,8 @@ View ([minimal-ui](#minimal-ui)) manager for iOS 8.
 
 ![Using Brim with iOS simulator.](./.readme/brim.gif)
 
+[toc 3]
+
 ## Minimal-ui
 
 In [iOS 7.1](https://developer.apple.com/library/ios/releasenotes/General/RN-iOSSDK-7.1/index.html), a property, minimal-ui, has been added for the viewport meta tag key that allows minimizing the top and bottom bars in Safari as the page loads. While on a page using minimal-ui, tapping the top bar brings the bars back. Tapping back in the content dismisses them again.
@@ -105,6 +107,16 @@ brim.on('viewchange', function (e) {
     // @var {String} 'full', 'minimal'
     e.viewName;
 });
+```
+
+## Detecting iOS 8
+
+Brim does not have a use case outside of iOS 8, though it does not restrict itself.
+
+I recommend using [platform.js](https://github.com/bestiejs/platform.js/) to target and apply Brim.
+
+```js
+// ...
 ```
 
 ## Download
