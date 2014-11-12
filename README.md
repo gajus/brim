@@ -50,11 +50,9 @@ You need to create two elements: mask and main. **Mask** is displayed to the use
 
 ## The Underlying Implementation
 
-When page is loaded, Brim will create a **treadmill** element. Treadmill element is used to give user space to scroll. Presence of the treadmill element ensures that user can enter the viewport and viewport continues to persist if user reloads the page or changes device orientation. It is invisible to the user the entire time. This element has ID `brim-treadmill`.
+When page is loaded, Brim will create a **treadmill** element. Treadmill element is used to give user space to scroll. Presence of the treadmill element ensures that user can enter the minimal-ui view and that it continues to persist if user reloads the page or changes device orientation. It is invisible to the user the entire time. This element has ID `brim-treadmill`.
 
-Upon loading the page or after changing the orientation, Brim is using [Scream](https://github.com/gajus/scream) (developed as part of this project) to detect if page is in the minimal-ui view (page that has been previously in minimal-ui and has been reloaded will remain in the minimal-ui if content height is greater than the viewport height).
-
-For documentation purposes it is worth noting that you cannot use Scream to detect if device is in minimal-ui straight after the [orientationchange](https://developer.mozilla.org/en-US/docs/Web/Events/orientationchange) event because `window` dimensions do not reflect the new orientation until the rotation animation has ended. You have to attach a listener to the [orientationchangeend](https://github.com/gajus/orientationchangeend) (developed as part of this project) event.
+Upon loading the page or after changing the orientation, Brim is using [Scream](https://github.com/gajus/scream) to detect if page is in the minimal-ui view (page that has been previously in minimal-ui and has been reloaded will remain in the minimal-ui if content height is greater than the viewport height).
 
 When page is in the minimal-ui, Brim will disable scrolling of the document (it does this in a [safe way](http://stackoverflow.com/a/26853900/368691) that does not affect the contents of the main element). Disabling document scrolling prevents accidentally leaving the minimal-ui when scrolling upwards. As per the original iOS 7.1 spec, tapping the top bar brings back the rest of the chrome.
 
