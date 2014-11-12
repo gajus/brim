@@ -1,0 +1,34 @@
+html,
+body,
+p {
+    margin: 0; padding: 0;
+}
+
+body {
+    font: normal 16px/25px 'Helvetica Neue', Helvetica, Arial, freesans, sans-serif;
+
+    &.minimal {
+        background: #1E824C;
+    }
+
+    &.full {
+        background: #663399;
+    }
+}
+
+#brim-mask,
+#brim-main {
+    color: #fff; pointer-events: none;
+
+    p {
+        margin: 20px;
+    }
+}
+
+#brim-mask {
+    background: #663399;
+}
+
+#brim-main {
+    background: #1E824C;
+}
