@@ -42,6 +42,7 @@ When page is in the full view, Brim will show the mask element.
 ## Quick Start
 
 ```html
+<!DOCTYPE html>
 <html>
 <head>
     <script src="./bower_components/scream/dist/scream.js"></script>
@@ -74,6 +75,20 @@ When page is in the full view, Brim will show the mask element.
 </body>
 </html>
 ```
+
+## Styling
+
+If mask element does not have active content, it is advisable to set disable pointer events.
+
+```css
+#brim-mask {
+    pointer-events: none;
+}
+```
+
+Do not set style that would change position or dimensions of the mask or the main element.
+
+Do not style the treadmill.
 
 ## Events
 
