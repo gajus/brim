@@ -42,7 +42,6 @@ When page is in the full view, Brim will show the mask element.
 ## Quick Start
 
 ```html
-<!DOCTYPE html>
 <html>
 <head>
     <script src="./bower_components/scream/dist/scream.js"></script>
