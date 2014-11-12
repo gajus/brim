@@ -14,6 +14,6 @@
     "Gajus Kuizinas <gk@anuary.com>"
   ],
   "dependencies": {
-    "scream": "~2.0.6"
+    "scream": "~2.0.7"
   }
 }

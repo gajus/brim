@@ -31,7 +31,7 @@
     "platform": "^1.2.0"
   },
   "dependencies": {
-    "scream": "^2.0.6",
+    "scream": "^2.0.7",
     "sister": "^3.0.0"
   }
 }
