@@ -13,7 +13,10 @@ View ([minimal-ui](#minimal-ui)) manager for iOS 8.
 
 ![Using Brim with iOS simulator.](./.gitdown/brim.gif)
 
+<h2 id="brim-contents">Contents</h2>
+
 * [Brim](#brim)
+    * [Contents](#brim-contents)
     * [minimal-ui](#brim-minimal-ui)
     * [Features](#brim-features)
     * [Setup](#brim-setup)
