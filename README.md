@@ -154,8 +154,3 @@ Using [NPM](https://www.npmjs.org/):
 ```sh
 npm install brim
 ```
-
-The old-fashioned way, download either of the following files:
-
-* https://raw.githubusercontent.com/gajus/brim/master/dist/brim.js
-* https://raw.githubusercontent.com/gajus/brim/master/dist/brim.min.js
