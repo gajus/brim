@@ -1,15 +1,15 @@
 # Brim
 
-[![NPM version](https://badge.fury.io/js/brim.svg?cache=123)](http://badge.fury.io/js/brim)
-[![Bower version](https://badge.fury.io/bo/brim.svg?cache=123)](http://badge.fury.io/bo/brim)
+{"gitdown": "badge", "name": "npm-version"}
+{"gitdown": "badge", "name": "bower-version"}
 
 View ([minimal-ui](#minimal-ui)) manager for iOS 8.
 
 [Try it](http://gajus.com/sandbox/brim/demo/) and [tweet it](https://twitter.com/intent/retweet?tweet_id=532479715366674432) if you like it.
 
-![Using Brim with iOS simulator.](./.readme/brim.gif)
+![Using Brim with iOS simulator.](./.gitdown/brim.gif)
 
-[toc 3]
+{"gitdown:": "contents"}
 
 ## minimal-ui
 
@@ -100,7 +100,7 @@ Do not style the treadmill.
 
 ## Events
 
-### `viewchange`
+### viewchange
 
 Invoked on page load and when view changes.
 
