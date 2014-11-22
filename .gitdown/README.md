@@ -9,7 +9,7 @@ View ([minimal-ui](#minimal-ui)) manager for iOS 8.
 
 ![Using Brim with iOS simulator.](./.gitdown/brim.gif)
 
-{"gitdown:": "contents"}
+{"gitdown": "contents"}
 
 ## minimal-ui
 
