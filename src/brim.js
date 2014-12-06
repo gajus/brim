@@ -50,7 +50,7 @@ Brim = function Brim (config) {
 
             global.document.addEventListener('touchmove', function (e) {
                 if (viewport.isMinimalView() && firstMove) {
-                    e.preventDefault();
+                    //e.preventDefault();
                 }
 
                 firstMove = false;
@@ -163,6 +163,7 @@ Brim = function Brim (config) {
         main.style.left = 0;
 
         main.style.overflowY = 'scroll';
+        main.style.webkitOverflowScrolling = 'touch';
 
         return main;
     };
