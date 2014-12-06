@@ -170,7 +170,13 @@ Brim = function Brim (config) {
      * @return {HTMLElement}
      */
     brim._makeTreadmill = function () {
-        var treadmill = document.createElement('div');
+        var treadmill = document.querySelector('#brim-treadmill');
+
+        if (treadmill) {
+            throw new Error('There is an existing treadmill element.');
+        }
+
+        treadmill = document.createElement('div');
         treadmill.id = 'brim-treadmill';
 
         document.body.appendChild(treadmill);
@@ -194,6 +200,10 @@ Brim = function Brim (config) {
     brim._makeMask = function () {
         var mask = document.querySelector('#brim-mask');
 
+        if (!mask) {
+            throw new Error('Mask element does not exist.');
+        }
+
         mask.style.position = 'fixed';
         mask.style.zIndex = 30;
 
@@ -209,6 +219,10 @@ Brim = function Brim (config) {
     brim._makeMain = function () {
         var main = document.querySelector('#brim-main');
 
+        if (!main) {
+            throw new Error('Main element does not exist.');
+        }
+
         main.style.position = 'fixed';
         main.style.zIndex = 20;
 
@@ -216,6 +230,12 @@ Brim = function Brim (config) {
         main.style.left = 0;
 
         return main;
+    };
+
+    brim._makeDOM = function () {
+        player.treadmill = brim._makeTreadmill();
+        player.mask = brim._makeMask();
+        player.main = brim._makeMain();
     };
 
     /**
@@ -236,9 +256,7 @@ Brim = function Brim (config) {
 
     brim.on = eventEmitter.on;
 
-    player.treadmill = brim._makeTreadmill();
-    player.mask = brim._makeMask();
-    player.main = brim._makeMain();
+    brim._makeDOM();
 
     brim._setupDOMEventListeners();
 };
