@@ -36,6 +36,9 @@ Brim = function Brim (config) {
             eventEmitter.trigger('viewchange', e);
         });
 
+        brim._main();
+        brim._mask();
+
         // Disable window scrolling when in minimal view.
         // @see http://stackoverflow.com/a/26853900/368691
         (function () {
@@ -158,6 +161,8 @@ Brim = function Brim (config) {
 
         main.style.top = 0;
         main.style.left = 0;
+
+        main.style.overflowY = 'scroll';
 
         return main;
     };
