@@ -136,7 +136,7 @@ brim.on('viewchange', function (e) {
 Brim does not have a use case outside of iOS 8, though it does not restrict itself. I recommend using [platform.js](https://github.com/bestiejs/platform.js/) to target the platform:
 
 ```js
-if (platform.os.family == 'iOS' && parseInt(platform.os.version, 10) > 8) {
+if (platform.os.family == 'iOS' && parseInt(platform.os.version, 10) >= 8) {
     // Use Scream & Brim.
 }
 ```
