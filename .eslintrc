@@ -7,6 +7,7 @@
         "no-extend-native": 2,
         "no-process-env": 2,
         "no-self-compare": 2,
+        "no-underscore-dangle": false,
         "no-void": 2,
         "no-warning-comments": [1, { "terms": ["todo", "@toto"], "location": "start" }],
         "vars-on-top": 2,

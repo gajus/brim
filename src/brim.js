@@ -1,3 +1,6 @@
+/* global document,gajus */
+'use strict';
+
 var Brim,
     Sister = require('sister');
 
@@ -6,7 +9,7 @@ Brim = function Brim (config) {
         player = {},
         viewport,
         eventEmitter;
-    
+
     if (!(this instanceof Brim)) {
         return new Brim(config);
     }
@@ -41,21 +44,22 @@ Brim = function Brim (config) {
 
         // Disable window scrolling when in minimal view.
         // @see http://stackoverflow.com/a/26853900/368691
+
         (function () {
             var firstMove;
 
-            global.document.addEventListener('touchstart', function (e) {
+            global.document.addEventListener('touchstart', function () {
                 firstMove = true;
             });
 
             global.document.addEventListener('touchmove', function (e) {
                 if (viewport.isMinimalView() && firstMove) {
-                    //e.preventDefault();
+                    e.preventDefault();
                 }
 
                 firstMove = false;
             });
-        } ());
+        })();
     };
 
     /**
@@ -81,7 +85,7 @@ Brim = function Brim (config) {
             player.mask.style.display = 'block';
 
             player.mask.style.width = global.innerWidth + 'px';
-            player.mask.style.height = (global.innerHeight * 2) + 'px';
+            player.mask.style.height = global.innerHeight * 2 + 'px';
 
             brim._repaintElement(player.mask);
         }
@@ -184,7 +188,6 @@ Brim = function Brim (config) {
         element.style.webkitTransform = 'translateZ(0)';
 
         element.style.display = 'none';
-        element.offsetHeight;
         element.style.display = 'block';
     };
 
