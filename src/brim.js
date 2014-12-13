@@ -45,22 +45,21 @@ Brim = function Brim (config) {
         // Disable window scrolling when in minimal view.
         // @see http://stackoverflow.com/a/26853900/368691
 
-        // FIXME: As far as I know this isn't needed anymore, may be deleted
-        // (function () {
-        //     var firstMove;
+        (function () {
+            var firstMove;
 
-        //     global.document.addEventListener('touchstart', function (e) {
-        //         firstMove = true;
-        //     });
+            global.document.addEventListener('touchstart', function () {
+                firstMove = true;
+            });
 
-        //     global.document.addEventListener('touchmove', function (e) {
-        //         if (viewport.isMinimalView() && firstMove) {
-        //             //e.preventDefault();
-        //         }
+            global.document.addEventListener('touchmove', function (e) {
+                if (viewport.isMinimalView() && firstMove) {
+                    e.preventDefault();
+                }
 
-        //         firstMove = false;
-        //     });
-        // })();
+                firstMove = false;
+            });
+        })();
     };
 
     /**
