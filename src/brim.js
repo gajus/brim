@@ -1,7 +1,8 @@
-/* global document,gajus */
+/* global document */
 'use strict';
 
 var Brim,
+    Scream = require('scream'),
     Sister = require('sister');
 
 Brim = function Brim (config) {
@@ -16,7 +17,7 @@ Brim = function Brim (config) {
 
     brim = this;
 
-    if (!config.viewport || !(config.viewport instanceof gajus.Scream)) {
+    if (!config.viewport || !(config.viewport instanceof Scream)) {
         throw new Error('Configuration property "viewport" must be an instance of Scream.');
     }
 
